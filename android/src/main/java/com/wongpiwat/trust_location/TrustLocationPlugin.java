@@ -72,18 +72,6 @@ public class TrustLocationPlugin extends FlutterActivity implements MethodCallHa
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        locationAssistantListener.getAssistant().start();
-    }
-
-    @Override
-    protected void onPause() {
-        locationAssistantListener.getAssistant().stop();
-        super.onPause();
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         locationAssistantListener.getAssistant().onPermissionsUpdated(requestCode, grantResults);//io.flutter.Log.i("i", "requestCode: " + requestCode);
     }
