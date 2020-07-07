@@ -37,6 +37,8 @@ public class TrustLocationPlugin extends FlutterActivity implements MethodCallHa
     public void onMethodCall(MethodCall call, @NonNull Result result) {
         switch (call.method) {
             case "isMockLocation":
+
+                locationAssistantListener.start();
                 if (locationAssistantListener.isMockLocationsDetected()) {
                     result.success(true);
                 } else if (locationAssistantListener.getLatitude() != null && locationAssistantListener.getLongitude() != null) {
@@ -45,6 +47,7 @@ public class TrustLocationPlugin extends FlutterActivity implements MethodCallHa
                     locationAssistantListener = new LocationAssistantListener(context);
                     result.success(true);
                 }
+                locationAssistantListener.stop();
                 break;
             case "getLatitude":
                 if (locationAssistantListener.getLatitude() != null) {
@@ -95,7 +98,16 @@ class LocationAssistantListener implements LocationAssistant.Listener {
     public LocationAssistantListener(Context context) {
         assistant = new LocationAssistant(context, this, LocationAssistant.Accuracy.HIGH, 5000, false);
         assistant.setVerbose(true);
+        //Remove this line, its makes this plugin very slow
+        //assistant.start();
+    }
+
+    public void start(){
         assistant.start();
+    }
+
+    public void stop(){
+        assistant.stop();
     }
 
     @Override
